@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI API Testing Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-robot"></i> AI-Powered API Testing Assistant</h1>
+            <p>Automatically generate and execute comprehensive API tests</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="tab-button active" data-tab="dashboard">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </button>
+            <button class="tab-button" data-tab="upload">
+                <i class="fas fa-upload"></i> Upload API Spec
+            </button>
+            <button class="tab-button" data-tab="generate">
+                <i class="fas fa-magic"></i> Generate Tests
+            </button>
+            <button class="tab-button" data-tab="execute">
+                <i class="fas fa-play"></i> Execute Tests
+            </button>
+            <button class="tab-button" data-tab="results">
+                <i class="fas fa-list-check"></i> Results
+            </button>
+        </nav>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <h2>Dashboard Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-file-code"></i>
+                    <h3 id="total-specs">0</h3>
+                    <p>API Specifications</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-flask"></i>
+                    <h3 id="total-suites">0</h3>
+                    <p>Test Suites</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-play-circle"></i>
+                    <h3 id="total-executions">0</h3>
+                    <p>Test Executions</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3 id="avg-coverage">0%</h3>
+                    <p>Average Coverage</p>
+                </div>
+            </div>
+
+            <h3>Recent Test Executions</h3>
+            <div id="recent-executions" class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Suite ID</th>
+                            <th>Status</th>
+                            <th>Passed</th>
+                            <th>Failed</th>
+                            <th>Coverage</th>
+                            <th>Started</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="executions-tbody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Upload Tab -->
+        <div id="upload" class="tab-content">
+            <h2>Upload OpenAPI Specification</h2>
+            <div class="form-container">
+                <form id="upload-form">
+                    <div class="form-group">
+                        <label for="spec-name">API Specification Name</label>
+                        <input type="text" id="spec-name" required placeholder="e.g., User Management API">
+                    </div>
+                    <div class="form-group">
+                        <label for="spec-content">OpenAPI/Swagger JSON</label>
+                        <textarea id="spec-content" rows="15" required placeholder='Paste your OpenAPI specification here...'></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Upload Specification
+                    </button>
+                </form>
+            </div>
+
+            <h3>Uploaded Specifications</h3>
+            <div id="specs-list" class="cards-container">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Generate Tab -->
+        <div id="generate" class="tab-content">
+            <h2>Generate Test Cases</h2>
+            <div class="form-container">
+                <form id="generate-form">
+                    <div class="form-group">
+                        <label for="select-spec">Select API Specification</label>
+                        <select id="select-spec" required>
+                            <option value="">-- Select a specification --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="base-url">Base URL</label>
+                        <input type="text" id="base-url" value="http://localhost:8000" required>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="include-edge-cases" checked>
+                            Include edge cases and negative scenarios
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-magic"></i> Generate Tests with AI
+                    </button>
+                </form>
+            </div>
+
+            <div id="generation-status" class="status-message" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i> Generating tests...
+            </div>
+
+            <div id="generated-suite" style="display: none;">
+                <h3>Generated Test Suite</h3>
+                <div class="info-box">
+                    <p><strong>Suite ID:</strong> <span id="suite-id"></span></p>
+                    <p><strong>Name:</strong> <span id="suite-name"></span></p>
+                    <p><strong>Total Tests:</strong> <span id="suite-count"></span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Execute Tab -->
+        <div id="execute" class="tab-content">
+            <h2>Execute Test Suite</h2>
+            <div class="form-container">
+                <form id="execute-form">
+                    <div class="form-group">
+                        <label for="select-suite">Select Test Suite</label>
+                        <select id="select-suite" required>
+                            <option value="">-- Select a test suite --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="target-url">Target API Base URL</label>
+                        <input type="text" id="target-url" value="http://localhost:8000" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-play"></i> Execute Tests
+                    </button>
+                </form>
+            </div>
+
+            <div id="execution-status" class="status-message" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i> Running tests...
+            </div>
+
+            <div id="execution-result" style="display: none;">
+                <h3>Execution Summary</h3>
+                <div class="result-summary">
+                    <div class="result-stat passed">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="result-passed">0</span>
+                        <p>Passed</p>
+                    </div>
+                    <div class="result-stat failed">
+                        <i class="fas fa-times-circle"></i>
+                        <span id="result-failed">0</span>
+                        <p>Failed</p>
+                    </div>
+                    <div class="result-stat coverage">
+                        <i class="fas fa-chart-pie"></i>
+                        <span id="result-coverage">0%</span>
+                        <p>Coverage</p>
+                    </div>
+                    <div class="result-stat time">
+                        <i class="fas fa-clock"></i>
+                        <span id="result-time">0s</span>
+                        <p>Duration</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Tab -->
+        <div id="results" class="tab-content">
+            <h2>Test Results & AI Analysis</h2>
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="select-execution">Select Execution</label>
+                    <select id="select-execution">
+                        <option value="">-- Select an execution --</option>
+                    </select>
+                </div>
+                <button id="view-results-btn" class="btn btn-primary">
+                    <i class="fas fa-eye"></i> View Results
+                </button>
+                <button id="get-ai-analysis-btn" class="btn btn-secondary">
+                    <i class="fas fa-brain"></i> Get AI Analysis
+                </button>
+            </div>
+
+            <div id="test-results-container" style="display: none;">
+                <h3>Test Execution Details</h3>
+                <div id="test-results-list"></div>
+            </div>
+
+            <div id="ai-analysis-container" style="display: none;">
+                <h3>AI-Powered Analysis</h3>
+                <div class="analysis-box">
+                    <div class="analysis-section">
+                        <h4><i class="fas fa-star"></i> Quality Score</h4>
+                        <div class="quality-score">
+                            <span id="quality-score">0</span>/100
+                        </div>
+                    </div>
+
+                    <div class="analysis-section">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Critical Issues</h4>
+                        <ul id="critical-issues"></ul>
+                    </div>
+
+                    <div class="analysis-section">
+                        <h4><i class="fas fa-lightbulb"></i> Recommendations</h4>
+                        <ul id="recommendations"></ul>
+                    </div>
+
+                    <div class="analysis-section">
+                        <h4><i class="fas fa-check-double"></i> Well Covered Areas</h4>
+                        <ul id="well-covered"></ul>
+                    </div>
+
+                    <div class="analysis-section">
+                        <h4><i class="fas fa-exclamation-circle"></i> Coverage Gaps</h4>
+                        <ul id="coverage-gaps"></ul>
+                    </div>
+
+                    <div class="analysis-section">
+                        <h4><i class="fas fa-info-circle"></i> Summary</h4>
+                        <p id="analysis-summary"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
