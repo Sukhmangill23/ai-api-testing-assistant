@@ -142,7 +142,7 @@ OLLAMA_MODEL=mistral
 
 - **Backend**: FastAPI, Python 3.11+
 - **Database**: PostgreSQL (SQLite for development)
-- **AI**: Ollama (Local LLM - llama3.2)
+- **AI**: Ollama (Local LLM - llama3:latest)
 - **Testing**: Pytest, Coverage
 - **Frontend**: Vanilla JavaScript, HTML5, CSS3
 - **Deployment**: Docker, Docker Compose
@@ -155,3 +155,130 @@ OLLAMA_MODEL=mistral
 ✅ **Offline** - Works without internet
 ✅ **Resume-Worthy** - Shows you can work with local LLMs
 ✅ **Fast** - Low latency responses
+## Example Test Scenarios
+
+### Test Your Own API
+
+1. **Upload this OpenAPI specification**
+
+```json
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Health API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Health check"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+2. **Generate tests** from the uploaded spec.
+
+3. **Execute tests with base URL**
+```bash
+http://localhost:8000
+```
+
+4. **Expected result**
+- All generated tests should pass successfully.
+
+---
+
+### Test Public APIs
+
+- **GitHub API**
+```bash
+https://api.github.com
+```
+
+- **ReqRes.in**
+```bash
+https://reqres.in
+```
+
+- **JSONPlaceholder** (recommended demo)
+```bash
+https://jsonplaceholder.typicode.com
+```
+
+---
+
+## Troubleshooting
+
+### "Ollama connection failed"
+
+```bash
+# Check if Ollama is running
+ollama ps
+
+# Start Ollama
+ollama serve
+
+# Test connection
+curl http://localhost:11434/api/tags
+```
+
+---
+
+### "Invalid JSON format"
+
+- Use the **exact JSON** from the example above
+- Validate JSON at:
+```bash
+https://jsonformatter.curiousconcept.com
+```
+- Remove trailing commas
+
+---
+
+### "404 errors" in tests
+
+- Ensure the **Base URL** is correct
+- Test manually first:
+
+```bash
+curl https://jsonplaceholder.typicode.com/posts
+```
+
+- The endpoint must exist in the target API
+
+---
+
+### "AI analysis shows empty"
+
+- Wait for tests to complete:
+```bash
+status = "completed"
+```
+
+- Check Ollama is running:
+```bash
+ollama list
+```
+
+- Use the JSONPlaceholder example (always works)
+
+---
+
+### "Critical Issues shows blank"
+
+- Hard refresh browser:
+```bash
+Windows: Ctrl + F5
+Mac: Cmd + Shift + R
+```
+
+- Empty lists now show:
+```bash
+None
+```
