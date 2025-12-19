@@ -199,19 +199,23 @@ OLLAMA_MODEL=mistral
 
 
 2. **Generate tests** from the uploaded spec.
-<img width="1031" height="649" alt="as2" src="https://github.com/user-attachments/assets/aaaa7926-8ed2-4ca5-ba63-46ce0d514aa0" />
+<img width="1046" height="656" alt="image" src="https://github.com/user-attachments/assets/70a6be0d-4cbd-4f49-9878-0bc9467f87ee" />
 <img width="522" height="373" alt="image" src="https://github.com/user-attachments/assets/34fd730d-e0ed-4844-bde6-c414980aa3e7" />
 
 3. **Execute tests with base URL**
 ```bash
 http://localhost:8000
 ```
-<img width="1130" height="662" alt="image" src="https://github.com/user-attachments/assets/b3e9d74b-1a0f-4514-8001-3a7c7c6767e1" />
-<img width="1100" height="600" alt="image" src="https://github.com/user-attachments/assets/87ba266a-01dd-47b1-b6c6-c1fd29c07c7c" />
+<img width="1094" height="608" alt="image" src="https://github.com/user-attachments/assets/a7061049-8013-4cd1-8ac3-d86f42caf66e" />
+
 
 
 4. **Expected result**
 - All generated tests should pass successfully.
+<img width="1365" height="545" alt="image" src="https://github.com/user-attachments/assets/9cd4db7d-e448-4e64-b5a3-ce77fe7edd4b" />
+<img width="310" height="810" alt="image" src="https://github.com/user-attachments/assets/4c6a89b7-0a8d-4c89-a6f5-653944ac05e2" />
+<img width="1328" height="1110" alt="image" src="https://github.com/user-attachments/assets/8157c5e2-1230-40d9-9dc0-55b16022da16" />
+
 
 ---
 
