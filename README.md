@@ -165,7 +165,7 @@ OLLAMA_MODEL=mistral
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Health API",
+    "title": "AI Testing Assistant Health API",
     "version": "1.0.0"
   },
   "paths": {
@@ -173,7 +173,20 @@ OLLAMA_MODEL=mistral
       "get": {
         "responses": {
           "200": {
-            "description": "Health check"
+            "description": "Health check endpoint",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "healthy"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -182,12 +195,20 @@ OLLAMA_MODEL=mistral
 }
 ```
 
+<img width="1389" height="872" alt="Screenshot 2025-12-19 095815" src="https://github.com/user-attachments/assets/6ed044bf-db30-4e3f-a623-5e376d793232" />
+
+
 2. **Generate tests** from the uploaded spec.
+<img width="1031" height="649" alt="as2" src="https://github.com/user-attachments/assets/aaaa7926-8ed2-4ca5-ba63-46ce0d514aa0" />
+<img width="522" height="373" alt="image" src="https://github.com/user-attachments/assets/34fd730d-e0ed-4844-bde6-c414980aa3e7" />
 
 3. **Execute tests with base URL**
 ```bash
 http://localhost:8000
 ```
+<img width="1130" height="662" alt="image" src="https://github.com/user-attachments/assets/b3e9d74b-1a0f-4514-8001-3a7c7c6767e1" />
+<img width="1100" height="600" alt="image" src="https://github.com/user-attachments/assets/87ba266a-01dd-47b1-b6c6-c1fd29c07c7c" />
+
 
 4. **Expected result**
 - All generated tests should pass successfully.
